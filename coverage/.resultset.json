@@ -45,11 +45,6 @@
         1,
         null,
         null,
-        null,
-        null,
-        null,
-        null,
-        null,
         1,
         1,
         1,
@@ -88,10 +83,6 @@
         1,
         null,
         null,
-        null,
-        null,
-        null,
-        null,
         2,
         null,
         1,
@@ -108,6 +99,8 @@
         null
       ],
       "/Users/chrisdavidmerlino/Projects/Makers/oyster_card_challenge/lib/oystercard.rb": [
+        1,
+        null,
         1,
         null,
         1,
@@ -152,8 +145,35 @@
         null,
         null,
         null
+      ],
+      "/Users/chrisdavidmerlino/Projects/Makers/oyster_card_challenge/lib/station.rb": [
+        1,
+        null,
+        1,
+        null,
+        1,
+        2,
+        2,
+        null,
+        null
+      ],
+      "/Users/chrisdavidmerlino/Projects/Makers/oyster_card_challenge/spec/station_spec.rb": [
+        1,
+        null,
+        1,
+        null,
+        3,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null
       ]
     },
-    "timestamp": 1576679855
+    "timestamp": 1576680699
   }
 }
