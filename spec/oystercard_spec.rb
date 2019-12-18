@@ -8,10 +8,6 @@ describe Oystercard do
     it "has a balance of 0 by default" do
       expect(subject.balance).to eq(0)
     end
-
-    it "Has an empty journey history on creation" do
-      expect(subject.journey_history).to be_empty
-    end
   end
 
   describe "#topup" do
@@ -37,21 +33,6 @@ describe Oystercard do
 
     it { is_expected .to respond_to(:touch_in).with(1).argument }
 
-    it "no entry station before touch in" do
-      expect(subject.journey).to be_empty
-    end
-
-    it "registers start of journey" do
-      subject.top_up(Oystercard::MIN_CHARGE)
-      subject.touch_in(station)
-      expect(subject).to be_in_journey
-    end
-
-    it 'remembers entry station' do
-      subject.top_up(Oystercard::MIN_CHARGE)
-      subject.touch_in(station)
-      expect(subject.journey).to include(:entrance_station => station)
-    end
   end
 
   describe "#touch_out" do
@@ -72,18 +53,11 @@ describe Oystercard do
     end
 
     it "deducts fare" do
-      expect{subject.touch_out(station)}.to change{ subject.balance}.by(-Oystercard::MIN_CHARGE)
-    end
-
-    it "forget entry station on touch out" do
-      expect(subject.journey).to be_empty
+      expect{subject.touch_out(station)}.to change{ subject.balance}.by(-Oystercard::PENALTY_FARE)
     end
 
     let(:journey_history){ {entrance_station: entry_station, exit_station: exit_station} }
     
-    it "stores the journey history" do
-      expect(subject.journey_history).to include journey_history
-    end
   end
 
   describe "#in_journey?" do
