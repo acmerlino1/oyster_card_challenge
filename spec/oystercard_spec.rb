@@ -25,7 +25,7 @@ describe Oystercard do
     it "has a limit of 90" do
       max_cap = Oystercard::MAX_CAP
       subject.top_up(max_cap)
-      expect { subject.top_up(Oystercard::MIN) }.to raise_error "Maximum limit of #{max_cap} reached"
+      expect { subject.top_up(Oystercard::MIN_CHARGE) }.to raise_error "Maximum limit of #{max_cap} reached"
     end
   end
 
@@ -38,24 +38,19 @@ describe Oystercard do
     it { is_expected .to respond_to(:touch_in).with(1).argument }
 
     it "no entry station before touch in" do
-      expect(subject.entrance_station).to eq nil
+      expect(subject.journey).to be_empty
     end
-    
-    # before do
-    #   subject.top_up(Oystercard::MIN)
-    #   subject.touch_in(station)
-    # end
 
     it "registers start of journey" do
-      subject.top_up(Oystercard::MIN)
+      subject.top_up(Oystercard::MIN_CHARGE)
       subject.touch_in(station)
       expect(subject).to be_in_journey
     end
 
     it 'remembers entry station' do
-      subject.top_up(Oystercard::MIN)
+      subject.top_up(Oystercard::MIN_CHARGE)
       subject.touch_in(station)
-      expect(subject.entrance_station).to eq station
+      expect(subject.journey).to include(:entrance_station => station)
     end
   end
 
@@ -67,7 +62,7 @@ describe Oystercard do
     let(:exit_station) { double :station}
 
     before do
-      subject.top_up(Oystercard::MIN)
+      subject.top_up(Oystercard::MIN_CHARGE)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
     end
@@ -81,14 +76,10 @@ describe Oystercard do
     end
 
     it "forget entry station on touch out" do
-      expect(subject.entrance_station).to eq nil
-    end
-    
-    it "stores the exit station" do
-      expect(subject.exit_station).to eq exit_station
+      expect(subject.journey).to be_empty
     end
 
-    let(:journey_history){ {entry_station: entry_station, exit_station: exit_station} }
+    let(:journey_history){ {entrance_station: entry_station, exit_station: exit_station} }
     
     it "stores the journey history" do
       expect(subject.journey_history).to include journey_history

@@ -8,3 +8,7 @@ ruby '2.6.0'
 
 
 gem "rspec", "~> 3.9"
+
+gem 'simplecov', require: false
+gem 'simplecov-console', require: false
+
