@@ -8,7 +8,7 @@ describe Station do
     expect(subject.name).to eq "Oxford Circus"
   end
 
-  it 'has a station name' do
+  it 'has a station zone' do
     expect(subject.zone).to eq 1
   end
 end

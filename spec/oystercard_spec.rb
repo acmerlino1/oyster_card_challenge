@@ -21,7 +21,7 @@ describe Oystercard do
     it "has a limit of 90" do
       max_cap = Oystercard::MAX_CAP
       subject.top_up(max_cap)
-      expect { subject.top_up(Oystercard::MIN_CHARGE) }.to raise_error "Maximum limit of #{max_cap} reached"
+      expect { subject.top_up(Oystercard::MIN_LIMIT) }.to raise_error "Maximum limit of #{max_cap} reached"
     end
   end
 
@@ -43,27 +43,13 @@ describe Oystercard do
     let(:exit_station) { double :station}
 
     before do
-      subject.top_up(Oystercard::MIN_CHARGE)
+      subject.top_up(Oystercard::MIN_LIMIT)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
     end
 
-    it "registers end of journey" do
-      expect(subject).to_not be_in_journey
-    end
-
     it "deducts fare" do
-      expect{subject.touch_out(station)}.to change{ subject.balance}.by(-Oystercard::PENALTY_FARE)
-    end
-
-    let(:journey_history){ {entrance_station: entry_station, exit_station: exit_station} }
-    
-  end
-
-  describe "#in_journey?" do
-    it "initially not in journey" do
-      expect(subject).not_to be_in_journey
+      expect{subject.touch_out(station)}.to change{ subject.balance}.by(-Journey::PENALTY_FARE)
     end
   end
-
 end

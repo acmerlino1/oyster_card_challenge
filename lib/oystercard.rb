@@ -8,8 +8,7 @@ class Oystercard
   
 
   MAX_CAP = 90
-  MIN_CHARGE = 1
-  PENALTY_FARE = 6
+  MIN_LIMIT = 1
 
 
   def initialize(journey = Journey.new)
@@ -22,19 +21,16 @@ class Oystercard
     @balance += money
   end
 
-  def touch_in(station)
-    fail "insufficent funds" if @balance < MIN_CHARGE
+  def touch_in(station = nil)
+    fail "insufficent funds" if @balance < MIN_LIMIT
+    # penalty fare?
     journey.set_entry(station)
   end
 
-  def in_journey?
-    journey.in_journey?
-  end
-
-  def touch_out(station)
-    deduct(journey.fare)
+  def touch_out(station = nil)
     journey.set_exit(station)
-    journey.reset_journey
+    deduct(journey.fare)
+    journey.reset
   end
   
   private
