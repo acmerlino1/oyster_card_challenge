@@ -23,7 +23,6 @@ class Oystercard
 
   def touch_in(station = nil)
     fail "insufficent funds" if @balance < MIN_LIMIT
-    # penalty fare?
     journey.set_entry(station)
   end
 
